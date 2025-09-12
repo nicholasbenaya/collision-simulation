@@ -1,5 +1,6 @@
 CXX := g++
 CXXFLAGS := -Wall -Wextra -O2 -Iinclude -MMD -MP
+LIBS := -lsfml-graphics -lsfml-window -lsfml-system
 
 # Find all cpp files recursively under src/
 SRC := $(shell find src -name '*.cpp')
@@ -12,12 +13,12 @@ BIN := bin/collision-sim
 # Default target
 all: $(BIN)
 
-# Link step
+# Link step (now with SFML)
 $(BIN): $(OBJ)
 	@mkdir -p $(dir $@)
-	$(CXX) $(OBJ) -o $@
+	$(CXX) $(OBJ) -o $@ $(LIBS)
 
-# Compile step (mirror src/ folder inside build/)
+# Compile step (unchanged)
 build/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
