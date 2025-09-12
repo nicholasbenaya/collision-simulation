@@ -1,35 +1,41 @@
+# Compiler & flags
 CXX := g++
-CXXFLAGS := -Wall -Wextra -O2 -Iinclude -MMD -MP
+CXXFLAGS := -Wall -Wextra -Iinclude -MMD -MP
 LIBS := -lsfml-graphics -lsfml-window -lsfml-system
 
-# Find all cpp files recursively under src/
 SRC := $(shell find src -name '*.cpp')
-OBJ := $(SRC:src/%.cpp=build/%.o)
-DEP := $(OBJ:.o=.d)
+OBJ_DEBUG := $(SRC:src/%.cpp=build/debug/%.o)
+OBJ_RELEASE := $(SRC:src/%.cpp=build/release/%.o)
 
-# Final binary
-BIN := bin/collision-sim
+BIN_DEBUG := bin/collision-sim-debug
+BIN_RELEASE := bin/collision-sim
 
-# Default target
-all: $(BIN)
+# Default
+all: release
 
-# Link step (now with SFML)
-$(BIN): $(OBJ)
+# Debug build
+debug: CXXFLAGS += -g -O0
+debug: $(BIN_DEBUG)
+
+$(BIN_DEBUG): $(OBJ_DEBUG)
 	@mkdir -p $(dir $@)
-	$(CXX) $(OBJ) -o $@ $(LIBS)
+	$(CXX) $(OBJ_DEBUG) -o $@ $(LIBS)
 
-# Compile step (unchanged)
-build/%.o: src/%.cpp
+build/debug/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Auto-include dependencies
--include $(DEP)
+# Release build
+release: CXXFLAGS += -O2 -DNDEBUG
+release: $(BIN_RELEASE)
 
-.PHONY: clean run
+$(BIN_RELEASE): $(OBJ_RELEASE)
+	@mkdir -p $(dir $@)
+	$(CXX) $(OBJ_RELEASE) -o $@ $(LIBS)
 
+build/release/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Clean
 clean:
-	rm -rf build bin
-
-run: $(BIN)
-	./$(BIN)
