@@ -15,12 +15,13 @@ int main() {
   sf::CircleShape shape1(sqrt(p1.getMass()) *
                          20); // Radius proportional to mass
   shape1.setFillColor(sf::Color::Red);
-
+  shape1.setOrigin(shape1.getRadius(), shape1.getRadius()); // Set origin to center  
   shape1.setPosition(p1.getX(), p1.getY());
 
   sf::CircleShape shape2(sqrt(p2.getMass()) *
                          20); // Radius proportional to mass
   shape2.setFillColor(sf::Color::Blue);
+    shape2.setOrigin(shape2.getRadius(), shape2.getRadius()); // Set origin to center
   shape2.setPosition(p2.getX(), p2.getY());
 
   sf::Clock clock;
