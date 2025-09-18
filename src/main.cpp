@@ -1,17 +1,22 @@
 #include "Particle.hpp"
 #include <SFML/Graphics.hpp>
-#include <iostream>
-
 #include <cmath>
+#include <iostream>
+// #include <unistd.h>
 
 using namespace std;
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Collision Sim");
-//   sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Collision Sim",
-//                           sf::Style::Fullscreen);
+//   char cwd[1024];
+//   if (getcwd(cwd, sizeof(cwd)) != nullptr) {
+//     std::cout << "Current working directory: " << cwd << std::endl;
+//   } else {
+//     perror("getcwd() error");
+//   }
+  sf::RenderWindow window(sf::VideoMode(800, 600), "Collision Sim");
+  //   sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Collision Sim",
+  //                           sf::Style::Fullscreen);
   sf::Font font;
-  if (!font.loadFromFile("/mnt/c/Users/mahdi/Desktop/Dasprog/Collision "
-                         "SImulation/assets/font/MontserratBlack-3zOvZ.ttf")) {
+  if (!font.loadFromFile("assets/font/MontserratBlack-3zOvZ.ttf")) {
     std::cerr << "Failed to load font\n";
     return -1;
   }
