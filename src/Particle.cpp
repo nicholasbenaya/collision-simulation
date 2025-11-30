@@ -1,7 +1,12 @@
 #include "Particle.hpp"
 #include <cmath>
+#include <chrono>
+
 Particle::Particle(double x, double y, double mass)
-    : x(x), y(y), vx(100), vy(100), mass(mass) {}
+    : x(x), y(y), vx(100), vy(100), mass(mass), 
+      creationTime(std::chrono::steady_clock::now()) {} // Set creation time
+
+// ... rest of your existing Particle methods ...
 
 bool Particle::isColliding(const Particle &other) const {
   double dx = x - other.x;
