@@ -1,6 +1,6 @@
 # Simulasi Kolisi Partikel
 
-Proyek ini adalah simulasi kolisi partikel 2D menggunakan SFML, dengan arsitektur modular untuk mendukung berbagai algoritma deteksi kolisi. Saat ini tersedia algoritma Brute Force, QuadTree (placeholder), dan Spatial Hash. Aplikasi menampilkan partikel bergerak dalam jendela dan mengizinkan penambahan/pengurangan partikel serta pergantian algoritma secara runtime.
+Proyek ini adalah simulasi kolisi partikel 2D menggunakan SFML, dengan arsitektur modular untuk mendukung berbagai algoritma deteksi kolisi. Saat ini tersedia algoritma Brute Force, QuadTree (sudah diimplementasikan), dan Spatial Hash. Aplikasi menampilkan partikel bergerak dalam jendela dan mengizinkan penambahan/pengurangan partikel serta pergantian algoritma secara runtime.
 
 ## Ringkasan Proyek
 
@@ -13,7 +13,7 @@ Proyek ini adalah simulasi kolisi partikel 2D menggunakan SFML, dengan arsitektu
 - Arsitektur modular untuk detektor kolisi melalui antarmuka `ICollisionDetector`.
 - Implementasi algoritma:
   - Brute Force: pemeriksaan pasangan O(n²).
-  - QuadTree: saat ini placeholder (perlu pengembangan struktur quadtree sesungguhnya).
+  - QuadTree: quadtree penuh dengan subdivision, insert, dan query tetangga untuk memangkas pasangan.
   - Spatial Hash: grid spasial untuk mengurangi jumlah pasangan yang diperiksa.
 - Pergantian algoritma saat runtime tanpa reset partikel.
 - Kontrol interaktif: tambah/kurangi partikel, toggle fullscreen, dan ganti algoritma.
@@ -51,7 +51,7 @@ bin/
 - `Particle`: menyimpan posisi `(x, y)`, kecepatan `(vx, vy)`, massa, radius (`sqrt(mass)*20`), serta update gerak dan resolusi tabrakan elastis sederhana.
 - `ICollisionDetector`: antarmuka dengan metode `detectAndResolve(std::vector<Particle>&)` untuk mendeteksi dan menyelesaikan tabrakan.
 - `BruteForceDetector`: implementasi O(n²) memeriksa semua pasangan `(i, j)` dengan `j > i`.
-- `QuadTreeDetector`: placeholder; saat ini menggunakan logika brute force. Dapat diganti dengan implementasi quadtree yang membangun partisi ruang dan query tetangga.
+- `QuadTreeDetector`: implementasi quadtree; membangun partisi ruang (subdivision dengan kapasitas dan kedalaman batas), insert partikel, query tetangga di sekitar AABB, lalu menyelesaikan kolisi.
 - `SpatialHashDetector`: menggunakan grid (hash) dengan ukuran sel konfigurable untuk mengelompokkan partikel; memeriksa kolisi intra-sel dan sel tetangga untuk memangkas jumlah pasangan.
 - `Simulation`: mengelola koleksi partikel dan shape SFML, update gerak dan delegasi deteksi kolisi ke detektor terpilih, serta rendering.
 - `main.cpp`: UI HUD ringan (teks jumlah partikel dan algoritma), event loop SFML, kontrol keyboard, dan life-cycle window.
@@ -59,7 +59,7 @@ bin/
 ## Kontrol Aplikasi
 
 - `B`: Ganti algoritma ke Brute Force.
-- `Q`: Ganti algoritma ke QuadTree (placeholder).
+- `Q`: Ganti algoritma ke QuadTree.
 - `H`: Ganti algoritma ke Spatial Hash.
 - `+` (Equal/Add): Tambah 500 partikel.
 - `-` (Hyphen/Subtract): Hapus 500 partikel tertua.
@@ -92,7 +92,7 @@ Target Makefile:
 
 - **Brute Force**: Kompleksitas O(n²). Untuk jumlah partikel besar, akan menurun drastis.
 - **Spatial Hash**: Secara praktis memangkas pasangan yang harus diperiksa dengan hanya mengecek intra-sel dan sel tetangga. Cocok untuk distribusi partikel yang relatif merata.
-- **QuadTree (placeholder)**: Saat ini belum menerapkan struktur quadtree sesungguhnya; akan menunjukkan kinerja mirip brute force sampai diimplementasikan.
+- **QuadTree**: Mengurangi pasangan dengan pembagian ruang adaptif; kinerja lebih baik daripada brute force saat distribusi partikel tidak seragam.
 
 Pendekatan Evaluasi:
 
