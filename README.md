@@ -24,7 +24,7 @@ Proyek ini adalah simulasi kolisi partikel 2D menggunakan SFML, dengan arsitektu
 include/
 	CollisionDetector.hpp      // Antarmuka detektor kolisi
 	BruteForceDetector.hpp     // Header brute force
-	QuadTreeDetector.hpp       // Header quadtree (placeholder)
+	QuadTreeDetector.hpp       // Header quadtree
 	SpatialHashDetector.hpp    // Header spatial hash
 	Particle.hpp               // Model partikel
 	Simulation.hpp             // Orkestrasi simulasi
